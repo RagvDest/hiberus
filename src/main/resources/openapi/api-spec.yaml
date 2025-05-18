@@ -67,6 +67,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /department/active:
+    get:
+      tags:
+        - Department
+      summary: Get all active departments
+      operationId: getActiveDepartments
+      responses:
+        '200':
+          description: List of active departments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepartmentResponse'
+        '404':
+          description: No active departments found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /employee/create/{departmentId}:
     post:
       tags:

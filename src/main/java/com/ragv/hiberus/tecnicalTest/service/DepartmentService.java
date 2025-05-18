@@ -27,4 +27,10 @@ public interface DepartmentService {
      * @return DTO con los datos del departamento encontrado
      */
     DepartmentResponse getDepartmentById(Long departmentId);
+
+    /**
+     * Obtiene un departamento por su ID
+     * @return lista de DTO con los departamentos activos
+     */
+    List<DepartmentResponse> getActiveDepartments();
 }

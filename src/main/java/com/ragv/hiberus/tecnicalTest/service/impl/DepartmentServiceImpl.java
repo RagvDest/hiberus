@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +47,17 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Departamento no encontrado con ID: " + departmentId));
 
         return departmentMapper.toResponse(entity);
+    }
+
+    @Override
+    @Transactional()
+    public List<DepartmentResponse> getActiveDepartments() {
+        List<DepartmentEntity> activeDepartments = departmentRepository.findByStatus("A");
+        if (activeDepartments.isEmpty()) {
+            throw new ResourceNotFoundException("No existen departamentos activos");
+        }
+        return activeDepartments.stream()
+                .map(departmentMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }

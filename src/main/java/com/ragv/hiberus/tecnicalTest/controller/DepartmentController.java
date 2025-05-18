@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/department")
@@ -34,6 +36,17 @@ public class DepartmentController {
         try{
             departmentService.deleteDepartment(departmentId);
             return ResponseEntity.ok(new SuccessResponse().message("Department deleted successfully"));
+        }catch (Exception ex){
+            log.error(ex.getMessage());
+            return ResponseEntity.status(404).body(new ErrorResponse().error(ex.getMessage()));
+        }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<?> getActiveDepartments() {
+        try{
+            List<DepartmentResponse> activeDepartments = departmentService.getActiveDepartments();
+            return ResponseEntity.ok(activeDepartments);
         }catch (Exception ex){
             log.error(ex.getMessage());
             return ResponseEntity.status(404).body(new ErrorResponse().error(ex.getMessage()));

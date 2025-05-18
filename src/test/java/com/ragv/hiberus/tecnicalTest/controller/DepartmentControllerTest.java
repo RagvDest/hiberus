@@ -14,13 +14,19 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.*;
 
 @WebMvcTest(DepartmentController.class)
 public class DepartmentControllerTest {
@@ -63,4 +69,34 @@ public class DepartmentControllerTest {
                 .andExpect(jsonPath("$.error").value("No se encontró el departamento"));
     }
 
+    @Test
+    public void getActiveDepartments_sucess() throws Exception {
+        DepartmentResponse dept1 = new DepartmentResponse(1L, "IT", "A");
+        DepartmentResponse dept2 = new DepartmentResponse(2L, "HR", "A");
+        List<DepartmentResponse> activeDepartments = Arrays.asList(dept1, dept2);
+
+        when(departmentService.getActiveDepartments()).thenReturn(activeDepartments);
+
+        mockMvc.perform(get("/department/active"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("IT"))
+                .andExpect(jsonPath("$[0].status").value("A"))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[1].name").value("HR"))
+                .andExpect(jsonPath("$[1].status").value("A"));
+    }
+
+    @Test
+    public void getActiveDepartments_deberiaRetornar404_siNoHayDepartamentosActivos() throws Exception {
+        when(departmentService.getActiveDepartments())
+                .thenThrow(new ResourceNotFoundException("No active departments found"));
+
+        mockMvc.perform(get("/department/active"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error").value("No active departments found"));
+    }
 }

@@ -28,17 +28,4 @@ public interface DepartmentMapper {
      */
     DepartmentResponse toResponse(DepartmentEntity entity);
 
-    /**
-     * Convierte una lista de entidades a una lista de DTOs de respuesta
-     * @param entities Lista de entidades
-     * @return Lista de DTOs de respuesta
-     */
-    List<DepartmentResponse> toResponseList(List<DepartmentEntity> entities);
-
-    /**
-     * Actualiza una entidad existente con los datos de un DTO
-     * @param request El DTO con los datos actualizados
-     * @param entity La entidad a actualizar
-     */
-    void updateEntityFromRequest(DepartmentCreateRequest request, @MappingTarget DepartmentEntity entity);
 }

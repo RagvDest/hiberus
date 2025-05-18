@@ -158,7 +158,6 @@ class EmployeeControllerTest {
     // Test: Obtener empleado más joven - No usuarios activos
     @Test
     void getLowerAge_deberiaRetornar400() throws Exception {
-        YoungestEmployeeResponse response = new YoungestEmployeeResponse("Pedro", 20);
         when(employeeService.getYoungestEmployee()).thenThrow(new ResourceNotFoundException("No hay empleados activos registrados"));
 
         mockMvc.perform(get("/employee/lowerAge"))
