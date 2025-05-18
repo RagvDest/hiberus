@@ -21,7 +21,7 @@ public class DepartmentEntity {
     private String name;
 
     @Column(name = "dp_status", nullable = false)
-    private Boolean status;
+    private String status;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EmployeeEntity> employees;

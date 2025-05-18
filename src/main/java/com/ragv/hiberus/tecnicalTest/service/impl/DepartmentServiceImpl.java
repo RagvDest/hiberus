@@ -35,7 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Departamento no encontrado con ID: " + departmentId));
 
         // Eliminar lógicamente (cambiar estado a inactivo)
-        entity.setStatus(false);
+        entity.setStatus("I");
         departmentRepository.save(entity);
         return true;
     }

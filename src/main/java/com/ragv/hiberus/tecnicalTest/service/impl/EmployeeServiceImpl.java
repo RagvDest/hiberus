@@ -32,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Departamento no encontrado con ID: " + departmentId));
 
         // Verificar que el departamento está activo
-        if (!department.getStatus()) {
+        if (department.getStatus().equals("I")) {
             throw new IllegalArgumentException("No se puede crear un empleado en un departamento inactivo");
         }
 
@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con ID: " + employeeId));
 
         // Eliminar lógicamente (cambiar estado a inactivo)
-        entity.setStatus(false);
+        entity.setStatus("I");
         employeeRepository.save(entity);
         return true;
     }
@@ -58,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public HighestSalaryResponse getEmployeeWithHighestSalary() {
         // Obtener todos los empleados activos
-        List<EmployeeEntity> activeEmployees = employeeRepository.findByStatusTrue();
+        List<EmployeeEntity> activeEmployees = employeeRepository.findByStatusActive();
 
         if (activeEmployees.isEmpty()) {
             throw new ResourceNotFoundException("No hay empleados activos registrados");
@@ -76,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public YoungestEmployeeResponse getYoungestEmployee() {
         // Obtener todos los empleados activos
-        List<EmployeeEntity> activeEmployees = employeeRepository.findByStatusTrue();
+        List<EmployeeEntity> activeEmployees = employeeRepository.findByStatusActive();
 
         if (activeEmployees.isEmpty()) {
             throw new ResourceNotFoundException("No hay empleados activos registrados");

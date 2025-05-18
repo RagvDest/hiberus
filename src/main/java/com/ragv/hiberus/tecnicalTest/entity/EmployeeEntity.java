@@ -41,7 +41,7 @@ public class EmployeeEntity {
     private LocalDate terminationDate;
 
     @Column(name = "em_status", nullable = false)
-    private Boolean status;
+    private String status;
 
     // Columna para almacenar el ID del departamento
     @Column(name = "em_department_id", nullable = false, insertable = false, updatable = false)
