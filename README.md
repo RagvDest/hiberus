@@ -29,3 +29,5 @@ caso de que existan valores repetidos, solamente devolver un empleado.
 de que existan valores repetidos, solamente devolver un empleado. 
   - /employee/countLastMonth/ (método GET): devuelve el número de empleados que ingresaron en el último mes, tomando
 como la fecha actual hacia 1 mes atrás.
+
+### Documentación de EndPoints autogenerada con Open API
