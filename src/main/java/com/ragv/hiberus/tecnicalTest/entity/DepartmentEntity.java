@@ -1,19 +1,28 @@
 package com.ragv.hiberus.tecnicalTest.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+import java.util.List;
+
 @Entity(name = "hi_departments")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DepartmentEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "dp_id")
-    private Integer id;
 
-    @Column(name = "dp_name")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "dp_name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "dp_status")
-    private String status;
+    @Column(name = "dp_status", nullable = false)
+    private Boolean status;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EmployeeEntity> employees;
 }
